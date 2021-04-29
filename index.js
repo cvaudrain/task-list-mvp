@@ -291,6 +291,7 @@ document.addEventListener("keydown",function(){
 wipeDataBtn.addEventListener("click",function(){
   localStorage.clear();
 document.querySelectorAll(".paragraph-styling").forEach(e => e.remove());
+location.reload(); //new session start
 })
 
 
