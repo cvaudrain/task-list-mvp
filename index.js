@@ -32,6 +32,8 @@ assignId = 0 //if no data, we start IDs from 0
 
 function addItem(){
   if(inputField.value.length>0){
+    console.log(inputField.value.length)
+    console.log($(".container").length)
 //Save to localStorage via initemArray
 var currentItem = new item(inputField.value,assignId,false) //false needs to toggle when checked off
 itemArray.push(currentItem)
@@ -57,6 +59,7 @@ itemArray.forEach(function(obj,ind){
   }
 })
   //Now we just visually delete the htmo element
+
   event.target.parentElement.remove();
 })
     //Create paragraph element to hold text and buttons as parent
@@ -122,7 +125,7 @@ allCheckboxes.forEach(function(button){ //each button has this called individual
 
   })
 }) //END allCheckbox function
-console.log(JSON.parse(localStorage.getItem("storage")))
+
 }
 // NEW SESSIONS-Render Items Onscreen (WITH Event Delegation) from localStorage objects carried over
 // Only called if localStorage has storage value
@@ -300,7 +303,7 @@ document.addEventListener("keydown",function(){
 })
 
 wipeDataBtn.addEventListener("click",function(){
-  localStorage.clear();
+  localStorage.removeItem("storage") //previously was localStorage.clear() but changed to save theme data
 document.querySelectorAll(".paragraph-styling").forEach(e => e.remove());
 location.reload(); //so that addItems() don't reappear, if you add more items after clearing, and before leaving session.
 })
