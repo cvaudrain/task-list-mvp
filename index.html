@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" class="actionBody">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
@@ -13,23 +13,26 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
-  <body>
+  <body class="actionBody">
+    <button id="themeToggler" class="themeActionButton anton">Switch <br />Theme</button>
     <div id="title-div">
-      <img id="action"src="images/action.png" />
-      <p id="title" class="anton">
+      <img id="action" class=""src="images/action.png" />
+      <p id="title" class="anton actionTitle">
         Executive Function Assistant
       </p>
     </div>
 
 
-    <div class="container">
+    <div class="container actionContainer">
       <div id="incomplete-list">
 
 
-        <h1 class="anton orange-black-border no-top-margin">To Do:</h1>
-      <input id="inputField" type="text"> <button id="addToDo">+</button>
+        <h1 class="anton actionToDo no-top-margin">To Do:</h1>
+      <input id="inputField" type="text"> <button id="addToDo" class="actionButtons">+</button>
       <div id="toDoContainer" class="to-dos">
 
       </div>
@@ -37,8 +40,8 @@
         <div id="complete-list">
 
         </div>
-        <button id="wipe-button">Clear All</button>
-        
+        <button id="wipe-button" class="actionButtons anton">Clear All</button>
+
     </div>
 
 

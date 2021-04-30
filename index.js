@@ -5,7 +5,7 @@ let toDoContainer = document.getElementById("toDoContainer");
 let inputField = document.getElementById('inputField');
 let completedList=document.getElementById('completed-list');
 let itemArray;
-
+let currentTheme;
 
 // let itemArrayJson=JSON.stringify(itemArray) //remember to redefine in function.
 //an array of OBJECTS that we will need to stringify before setting to localStroage, and parse() when getting from local storage
@@ -20,18 +20,12 @@ function item(task,id,complete){
 if(localStorage.getItem('storage') && localStorage.getItem('storage')!="placeholder" ){ //Potential error here: When we parse, if it's NOT in array form, it's invalid.
   itemArray = JSON.parse(localStorage.getItem('storage'))  //reclaim itemArray progress from prev session.
 assignId = localStorage.getItem("idMaster") //continuity of ID number sequence across sessions.
-
 for(i=0;i<itemArray.length;i++){ //run render once per item rendered, NOT once, with a wrapped loop inside render().
 render(itemArray)
 }
-  console.log('localStorage currently holds past data for key: storage');
-  console.log("localStorage value is currently: ")
-  console.log(localStorage)
-  console.log(JSON.parse(localStorage.getItem('storage'))) //parsing correctly
 }else{
   itemArray = [] //can't define above, because it will cause errors if there IS local storage value, bc we'd push an array into an array. Not what we want.
 assignId = 0 //if no data, we start IDs from 0
-  console.log('localStorage "storage" key has just been declared')
     localStorage.setItem('storage',"placeholder") //If there is local storage do nothing.
   } //If there isn't localStorage data yet, then we need to DECLARE it here so that when we reference it to redefine below, it exists.
 
@@ -56,13 +50,10 @@ deleteButton.addEventListener("click",function(){
 }
 itemArray.forEach(function(obj,ind){
   if(obj.task+"X" == event.target.parentElement.innerText){
-    console.log("conditional firing sir, deleted value = " + obj.task)
     itemArray.splice(ind,1)
-    console.log(itemArray)
-    console.log(localStorage)
     var tempArray = JSON.stringify(itemArray)
     localStorage.setItem('storage', tempArray) //and SET modified local storage array.
-    console.log("local storage.storage new value = " + tempArray)
+
   }
 })
   //Now we just visually delete the htmo element
@@ -81,7 +72,6 @@ paragraph.addEventListener("mouseleave",function(){
 })
 inputField.value = "" //clear input field after add
 
-
   //create checkbox to toggle complete/incomplete
     var checkbox = document.createElement("button") //create checkbox-style button
 
@@ -89,7 +79,6 @@ inputField.value = "" //clear input field after add
 checkbox.addEventListener("click",function(){ //HERE we're using event delegation to add event listener if/else to handle clicks BEFORE adding checkbox to DOM
   if($(event.target).hasClass("checked-off")==false){ //if you use a jquery method like hasClass, need to use jQuery selector style with $()
 //First edit renders
-console.log("The clicked element was incomplete, should now be complete")
   paragraph.classList.add("completed-task") //CHECKS entire item, btnPlusText
   event.target.classList.add("checked-off") //"fills" checkbox with black background
 
@@ -97,7 +86,6 @@ console.log("The clicked element was incomplete, should now be complete")
 
   document.getElementById("complete-list").appendChild(paragraph)
 } else{
-console.log("The clicked element was complete, should now be incomplete")
   //First, edit renders
   paragraph.classList.remove("completed-task") //CHECKS entire item, btnPlusText
   event.target.classList.remove("checked-off") //"fills" checkbox with black background
@@ -114,17 +102,12 @@ paragraph.insertAdjacentElement("beforeend",deleteButton) //adds deleteButton to
 }
 assignId++ //increments the ID so that no 2 items have the same ID. This makes upkeep of localStorage array better..
 localStorage.setItem("idMaster",assignId) //in conditional above, IF data, we set this as the stored value. If not, assignId = 0.
-console.log("here is itemArray's current parsed value:")
-console.log(itemArray)
 
 //The Next function is attaching event listeners to each CHECKBOX button. the comparison for whether the clicked button's parent <p> innertext == the obj.task is so that we can compare that obj.task to the text
 let allCheckboxes = document.querySelectorAll(".checkbox") //when we find the match, THEN we if/else according to whether it should assign complete: true or false. This scope should accurately assess, bc we put the tests UNDER the forEach, not the inverse.
 allCheckboxes.forEach(function(button){ //each button has this called individually every time an item is added.
   button.addEventListener("click",function(){ //on click of this instance of button in foreach...
-
-    console.log(event.target.parentElement.innerText) //check the value to see
     itemArray.forEach(function(obj){ //NOW we call another forEach, which will compare this particular button text value, with every itemArray obj.task
-console.log(obj.complete)
       if(obj.task + "X" == event.target.parentElement.innerText){ //if obj.task == THIS PARTICULAR button's innerText(plus 'X' for the X text in the delete btn)
         if($(event.target).hasClass("checked-off")){ //and IF checked-off, we toggle to false, for incomplete
      obj.complete = true
@@ -136,28 +119,21 @@ console.log(obj.complete)
 
    localStorage.setItem('storage', itemArrayJson) //repeating update per item changed.
     })
-    console.log(localStorage)
+
   })
 }) //END allCheckbox function
-
-
-
+console.log(JSON.parse(localStorage.getItem("storage")))
 }
-
-// NEW SESSIONS-Render Items Onscreen (WITH Event Delegation) from localStorage objects carried
-// over- loops through itemArray to render every one.
-// Only called if localStorage has key of localStorage. Appends elements according to boolean value true/false
+// NEW SESSIONS-Render Items Onscreen (WITH Event Delegation) from localStorage objects carried over
+// Only called if localStorage has storage value
 function render(array){ //IS ITEMARRAY GETTING THE RIGHT VALUES? We should try pulling our conditionals for initial load from localStorage, NOT itemArray.
   //HERE! I think itemArray is out of scope. It's defined within an if statement, I'm not sure if it's accurate. Pull from localStorage
     var taskValue = array[i].task //these Are pulling corrctly.............
     var completionValue = array[i].complete
-
-    console.log("completion value for index "+ i + " is"+ completionValue)
     var paragraph = document.createElement("p")
 
 paragraph.innerText =taskValue;
 paragraph.classList.add("paragraph-styling")
-  console.log(paragraph.textContent)
 paragraph.addEventListener("mouseover",function(){
   deleteButton.classList.remove("inviso")
 
@@ -186,13 +162,11 @@ checkbox.addEventListener("click",function(){ //HERE we're using EVENT DELEGATIO
   if(completionValue == false){
     completionValue = true // need to change actual value, not just rendered elemnts
   checkbox.parentElement.classList.add("completed-task") //CHECKS entire item, btnPlusText.. in render() this doesn't reset so i remains 4, meaning
-  console.log(paragraph.textContent + " is the value for var paragraph inside render()")
   event.target.classList.add("checked-off") //"fills" checkbox with black background
   document.getElementById("complete-list").appendChild(paragraph)
 
 } else{
   completionValue = false; //if its true, then it must toggle to false on click.
-  console.log("item #" + i + " removed check off and completed task classes")
   checkbox.parentElement.classList.remove("completed-task") //This is always targeting the last item.
   event.target.classList.remove("checked-off") //This targets correctly.
   document.getElementById("incomplete-list").appendChild(paragraph)
@@ -200,9 +174,7 @@ checkbox.addEventListener("click",function(){ //HERE we're using EVENT DELEGATIO
 
 })
 if(completionValue==true){ //this handles the rendering on initial load, not on click.
-
 paragraph.classList.add("completed-task") //CHECKS entire item, btnPlusText.. in render() this doesn't reset so i remains 4, meaning
-
 checkbox.classList.add("checked-off") //"fills" checkbox with black background
 document.getElementById("complete-list").appendChild(paragraph)
 }else{
@@ -210,17 +182,13 @@ document.getElementById("complete-list").appendChild(paragraph)
 }
 paragraph.insertAdjacentElement("afterbegin",checkbox) //adds checkbox to DOM next to paragraph list item on left as FIRST CHILD. Note this is done AFTER its event listner is set.
 paragraph.insertAdjacentElement("beforeend",deleteButton) //adds deleteButton to DOM next to paragraph list item on right as LAST CHILD. Note this is done AFTER its event listner is set.
-console.log(itemArray)
 
 //The Next function is attaching event listeners to each checkbox button. the comparison for whether the clicked button's parent <p> innertext == the obj.task is so that we can compare that obj.task to the text
 let allCheckboxes = document.querySelectorAll(".checkbox") //when we find the match, THEN we if/else according to whether it should assign complete: true or false. This scope should accurately assess, bc we put the tests UNDER the forEach, not the inverse.
   itemArray = JSON.parse(localStorage.getItem('storage'))
 allCheckboxes.forEach(function(button){ //each button has this called individually every time an item is added.
   button.addEventListener("click",function(){ //on click of this instance of button in foreach...
-
-    console.log(event.target.parentElement.innerText) //check the value to see
     itemArray.forEach(function(obj){ //NOW we call another forEach, which will compare this particular button text value, with every itemArray obj.task
-console.log(obj.complete)
       if(obj.task + "X" == event.target.parentElement.innerText){ //if obj.task == THIS PARTICULAR button's innerText(plus 'X' for the X text in the delete btn)
         if($(event.target).hasClass("checked-off")){ //and IF checked-off, we toggle to false, for incomplete
      obj.complete = true
@@ -232,27 +200,22 @@ console.log(obj.complete)
 
    localStorage.setItem('storage', itemArrayJson) //repeating update per item changed.
     })
-    console.log(localStorage)
+
   })
 }) //END allCheckbox function
 
 //DELETION attach event listeners to all rendered buttons for Local Storage Update for deletion of items.
 document.querySelectorAll(".delete-btn").forEach(function(btn){
-console.log("delete button function called-event listeners assigned") //event listeners attached to rendered items on every load.
 
 btn.addEventListener("click",function(){
-  console.log("delete button function called and event click fired")
-  console.log("deleted sir")
+
   itemArray = JSON.parse(localStorage.getItem('storage')) //GET Current data
   itemArray.forEach(function(obj,ind){
     if(obj.task+"X" == event.target.parentElement.innerText){
-      console.log("conditional firing sir, deleted value = " + obj.task)
+
       itemArray.splice(ind,1)
-      console.log(itemArray)
-      console.log(localStorage)
       var tempArray = JSON.stringify(itemArray)
       localStorage.setItem('storage', tempArray) //and SET modified local storage array.
-      console.log("local storage.storage new value = " + tempArray)
     }
   })
 })
@@ -261,6 +224,7 @@ btn.addEventListener("click",function(){
 
 } //END Render
 
+//Named Function to toggle completion value in storage.complete key
 function toggleComplete(p,checkbox){ //adjust itemArray object boolean value for
 itemArray.forEach(function(obj){
   if(obj.task == p.textContent && $(checkbox).hasClass("checked-off")){
@@ -271,10 +235,57 @@ itemArray.forEach(function(obj){
 
 }
 
-// function clearCache(){
-// localStorage.clear();
-// html.reload();
-//   }
+function themeCode(){
+  document.querySelector("img").removeAttribute("src")
+  document.querySelector("img").setAttribute("src","images/code.png")
+  document.querySelector("body").classList.remove("actionBody")
+    document.querySelector("body").classList.add("codeBody")
+      document.querySelector("html").classList.remove("actionBody")
+    document.querySelector("html").classList.add("codeBody")
+    document.querySelector(".container").classList.remove("actionContainer")
+  document.querySelector(".container").classList.add("codeContainer")
+  document.querySelector("#title").classList.remove("actionTitle")
+  document.querySelector("#title").classList.add("codeHeading")
+  document.querySelector("h1").classList.remove("actionToDo")
+  document.querySelector("h1").classList.add("codeToDo")
+
+  document.querySelector("#wipe-button").classList.remove("actionButtons")
+  document.querySelector("#wipe-button").classList.add("codeButtons")
+  document.querySelector("#addToDo").classList.remove("actionButtons")
+  document.querySelector("#addToDo").classList.add("codeButtons")
+  document.querySelector("#themeToggler").classList.remove("themeActionButton")
+  document.querySelector("#themeToggler").classList.add("themeCodeButton")
+  document.querySelectorAll(".anton").forEach(function(n){n.classList.add("codeFont")})
+  document.querySelectorAll(".codeFont").forEach(function(n){n.classList.remove("anton")})
+  currentTheme = "dark"
+  localStorage.setItem("theme",currentTheme)
+}
+
+function themeAction(){
+  document.querySelector("img").removeAttribute("src")
+  document.querySelector("img").setAttribute("src","images/action.png")
+  document.querySelector("body").classList.add("actionBody")
+    document.querySelector("body").classList.remove("codeBody")
+    document.querySelector("html").classList.add("actionBody")
+      document.querySelector("html").classList.remove("codeBody")
+    document.querySelector(".container").classList.add("actionContainer")
+  document.querySelector(".container").classList.remove("codeContainer")
+  document.querySelector("#title").classList.add("title")
+  document.querySelector("#title").classList.remove("codeHeading")
+  document.querySelector("h1").classList.add("actionToDo")
+  document.querySelector("h1").classList.remove("codeToDo")
+  document.querySelector("#wipe-button").classList.add("actionButtons")
+  document.querySelector("#wipe-button").classList.remove("codeButtons")
+  document.querySelector("#addToDo").classList.add("actionButtons")
+  document.querySelector("#addToDo").classList.remove("codeButtons")
+  document.querySelector("#themeToggler").classList.remove("themeCodeButton")
+  document.querySelector("#themeToggler").classList.add("themeActionButton")
+  document.querySelectorAll(".codeFont").forEach(function(n){n.classList.add("anton")})
+  document.querySelectorAll(".anton").forEach(function(n){n.classList.remove("codeFont")})
+  //Now, Store This Preference
+currentTheme = "action"
+localStorage.setItem("theme",currentTheme)
+}
 
 
 //Event Listeners
@@ -291,10 +302,19 @@ document.addEventListener("keydown",function(){
 wipeDataBtn.addEventListener("click",function(){
   localStorage.clear();
 document.querySelectorAll(".paragraph-styling").forEach(e => e.remove());
-location.reload(); //new session start
+location.reload(); //so that addItems() don't reappear, if you add more items after clearing, and before leaving session.
 })
 
+document.querySelector("#themeToggler").addEventListener("click",function(){
+  if($(event.target).hasClass("themeActionButton")){
+  themeCode()
+}else{
+  themeAction()
+}
+})
 
-
-
+//Final item is rendering last used themeCode
+if(localStorage.getItem("theme") == "dark"){
+themeCode()
+}
 }) //jQuery document.ready() wrapper END

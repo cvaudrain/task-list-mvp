@@ -12,11 +12,140 @@ font-family: 'Shadows Into Light', cursive; */
 html,body{
   width: 100%;
   height:100%;
-  /* background: linear-gradient(to right, #6e84f5,#1439f5,#034efc,#1439f5,#53aedb); */
-text-align: center;
-background: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+
+/* text-align: center; */
+/* background: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%); */
 background-attachment: fixed;
 }
+
+#themeToggler{
+  border-radius: 50%;
+  padding:20px;
+  margin-left:20px;
+  opacity: 90%;
+}
+/* //THEMES */
+
+.themeCodeButton{
+  background-color: #2e2e2e;
+  color:white;
+  margin-top: 30px;
+    padding:6px;
+    font-size:1.4rem;
+    font-weight: 600;
+    border: 1px solid white;
+  text-align: center;
+}
+.themeActionButton{
+  color:black;
+  background-color: #0d374d;
+  margin-top: 30px;
+    padding:6px;
+    font-size:1.4rem;
+    font-weight: 600;
+    border: 1px solid white;
+  text-align: center;
+}
+/* Code */
+.codeBody{
+  background: linear-gradient(90deg, rgba(15,14,14,1) 0%, rgba(47,48,50,1) 35%, rgba(11,11,11,1) 100%);
+}
+.codeContainer{
+  border: 2px solid white;
+background-color: #2e2e2e
+}
+.codeImage{
+  width: 30vmax;
+  min-width: 150px;
+  max-width: 500px;
+margin-bottom: 0
+}
+.codeHeading{
+color: white;
+}
+.codeButtons{
+  background-color:black;
+  color: white;
+  border: 1px solid white;
+}
+.codeToDo{
+  color:white;
+
+}
+
+.codeFont{
+  font-family: 'Quicksand', sans-serif;
+}
+/* Action! */
+.actionBody{
+  background: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+.actionContainer{
+border: 2px solid black;
+background-color: #0d374d;
+
+}
+.actionImage{
+  width: 30vmax;
+  min-width: 150px;
+  max-width: 500px;
+margin-bottom: 0
+}
+.actionTitle{
+color: white;
+text-shadow: 0 0 5px black
+}
+.actionButtons{
+background-color: #d46e08;
+color: black;
+border: 1px solid white;
+}
+
+.actionToDo{
+  color:#e38605;
+text-shadow: 1px 1px 2px black;
+}
+.anton{
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 3px;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+/* Vapor */
+#vaporBody{
+  background: linear-gradient(90deg, rgba(15,14,14,1) 0%, rgba(47,48,50,1) 35%, rgba(11,11,11,1) 100%);
+}
+#vaporContainer{
+background-color: #2e2e2e
+}
+#vaporHeading{
+color: white;
+}
+#vaporButtons{
+background-color: black;
+color: white;
+}
+#vaporToDo{
+
+}
+/* Zen */
+#zenBody{
+  background: linear-gradient(90deg, rgba(15,14,14,1) 0%, rgba(47,48,50,1) 35%, rgba(11,11,11,1) 100%);
+}
+#zenContainer{
+background-color: #2e2e2e
+}
+#zenHeading{
+color: white;
+}
+#zenButtons{
+background-color: black;
+color: white;
+}
+#zenToDo{
+
+}
+
 
 h1{
   /* margin-top: 0; */
@@ -28,21 +157,24 @@ h1{
   width:90vw;
   margin: auto;
 }
-#action{
+/* #action{
   width: 30vmax;
   min-width: 150px;
   max-width: 500px;
 margin-bottom: 0
+} */
+
+.title{
+    color: white;
+    text-shadow: 0 0 5px black
 }
-
-
 #title{
   font-size: 1.9rem;
-  color: white;
+
 margin-top: 10px;
 margin-bottom: 40px;
 font-style: italic;
-text-shadow: 0 0 5px black
+
 }
 @media(max-width:900px){
   #title{
@@ -50,33 +182,34 @@ text-shadow: 0 0 5px black
 
   }
 }
-.orange-black-border{
-  color:
-#e38605;
-text-shadow: 1px 1px 2px black;
-}
-.anton{
-  font-family: 'Anton', sans-serif;
-}
-.no-top-margin{
-  margin-top: 0;
+
+#action{
+  width: 30vmax;
+  min-width: 150px;
+  max-width: 500px;
+margin-bottom: 0
 }
 .container{
-color:#fff;
+  color:#fff;
 letter-spacing: 2px;
 font-weight: lighter;
 text-shadow: 1px 1px 1px black;
 width:70vw;
-
+text-align: center;
 margin: auto;
 font-family:'Shadows Into Light', sans-serif;
 border: 2px solid black;
 padding: 15px;
-background-color: #0d374d;
+/* background-color: #0d374d; */
 padding-bottom: 40px;
 /* background-image: linear-gradient( 135deg, #97ABFF 1%, #123597 100%); */
 box-shadow: 1px 1px 3px black;
 }
+
+.no-top-margin{
+  margin-top: 0;
+}
+
 /* completed list houses the completed items. It will be styled as having padding at the top to separate
 it visually from the mian list, and will be indented */
 
@@ -105,9 +238,11 @@ min-width: 150px;
   font-weight: 600;
   border: 1px solid white;
 text-align: center;
-background-color:#e38605;
-color: black;
 border-radius: 20%;
+}
+.addToDo{
+  background-color:#e38605;
+  color: black;
 }
 @media(max-width:283px){
   #addToDo{
@@ -136,7 +271,7 @@ margin-right: 5px;
 }
 /* crosses and grays out text */
 .completed-task{
-  color: #e38605;
+  color: gray;
   text-decoration: line-through;
 }
 
@@ -189,7 +324,9 @@ margin-top: 30px;
   font-weight: 600;
   border: 1px solid white;
 text-align: center;
-background-color:#e38605;
-color: black;
 /* border-radius: 20%; */
+}
+.wipe-button{
+  background-color:#e38605;
+  color: black;
 }
